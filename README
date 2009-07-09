@@ -1,0 +1,46 @@
+== Hyves API Library for Ruby
+
+Copyright Joost Hietbrink (joost@joopp.com) 2008.
+
+A very quickly created API for the Hyves.net API 1.0, see http://trac.hyves-api.nl/.
+Check http://blog.joopp.com/tag/hyves for more info.
+Check the code for most info :)
+
+=== Installation
+For a Rails install just put the hyves_api dir in your vendor dir.
+This version of the API depends on two gems: oauth (0.2.2) and xml-simple (1.0.11).
+Install them both using:
+
+  sudo gem install xml-simple
+  sudo gem install oauth
+
+Note that this overwrites some methods of the oauth gem. This means that any other
+code depending on oauth is BROKEN!
+
+=== Usage
+Simplest usage is shown below. For more examples check the examples dir.
+
+  require 'hyves_api/hyves_api'
+  # You need to apply for a key via http://www.hyves.nl/api/apply/
+  key     = 'key' # Your key here
+  secret  = 'secret' # Your secret here
+  
+  h = Hyves.new(key, secret)
+  # Go and login on the following URL
+  h.authorize_url('http://your_return_url/')
+  h.get_access_token
+  h.users_getByUsername(:username => 'claude')
+
+You can probably call all of Hyves API methods (see http://trac.hyves-api.nl/hyves-api/wiki/APIMethods).
+Although I haven't tested them all. Just replace the . with an _, like:
+
+  h.wwws_getByUser(:userid => 'someuserid')
+  h.wwws_getForFriends
+
+Make sure you have the proper user's authorizations. By default this is only
+['users.get', 'users.getByUsername']. You can specify this using:
+
+  h = Hyves.new(key, secret, :methods => ['users.get', 'users.getByUsername'], :ha_fancylayout => true, :expirationtype => 'infinite')
+
+=== TODO
+ * Leave the OAuth gem or only use a small part.
