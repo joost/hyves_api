@@ -6,6 +6,9 @@ A very quickly created API for the Hyves.net API 1.0, see http://trac.hyves-api.
 Check http://blog.joopp.com/tag/hyves for more info.
 Check the code for most info :)
 
+=== Changes
+* 2009-07-24: Added suggested changes by Consti and some documentation changes. Should now work with oauth 0.2.7.
+
 === Installation
 For a Rails install just put the hyves_api dir in your vendor dir.
 This version of the API depends on two gems: oauth (0.2.2) and xml-simple (1.0.11).
@@ -43,4 +46,4 @@ Make sure you have the proper user's authorizations. By default this is only
   h = Hyves.new(key, secret, :methods => ['users.get', 'users.getByUsername'], :ha_fancylayout => true, :expirationtype => 'infinite')
 
 === TODO
- * Leave the OAuth gem or only use a small part.
+* Leave the OAuth gem or only use a small part.

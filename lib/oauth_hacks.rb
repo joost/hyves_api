@@ -34,7 +34,7 @@ module OAuth::Client
 end
 
 module OAuth
-  class Consumer
+  class ConsumerWithHyvesExtension < Consumer
 
     # We use XMLSimple to parse the response of Hyves. oAuth did not work out-of-the-box.
     # This is because Hyves uses some own kind of format (see: https://trac.hyves-api.nl/hyves-api/wiki/APIoAuth).

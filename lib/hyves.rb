@@ -78,9 +78,11 @@ class Hyves
   
   # Hyves.new(consumer_key, secret)
   # A third (optional) parameter is a Hash of options:
-  #  :methods => [array of methods like 'users.get'], defaults to ['users.get', 'users.getByUsername'].
-  #  :ha_fancylayout => true/false, defaults to false.
-  #  :expirationtype => see hyves, defaults to 'default'.
+  # * <tt>:methods</tt> - [array of methods like 'users.get'], defaults to ['users.get', 'users.getByUsername'].
+  # * <tt>:ha_fancylayout</tt> - true/false, defaults to false.
+  # * <tt>:expirationtype</tt> -  see hyves, defaults to 'default'.
+  # * <tt>:mobile</tt> - true or false depending if you want to use the mobile Hyves pages, defaults to false.
+  # * <tt>:ha_version</tt> - version of the Hyves API to connect to. Defaults to 1.0.
   # You can also re-init a session which already has a request token:
   # Hyves.new(consumer_key, secret, {:request_token => 'blbla', :request_token_secret => 'blibli'})
   def initialize(key, secret, options = {})
@@ -93,7 +95,7 @@ class Hyves
     @key = key
     @secret = secret
     
-    @ha_version = '1.0'
+    @ha_version = options.delete(:ha_version) || '1.0'
     @ha_format = 'xml'
     @ha_fancylayout = options.delete(:ha_fancylayout)
 
@@ -105,6 +107,7 @@ class Hyves
 
     request_token_path = '/?ha_method=auth.requesttoken'+default_options+request_token_options
     authorize_url = 'http://www.hyves.nl/api/authorize/'
+    authorize_url = 'http://www.hyves.nl/mobile/api/authorize/' if options[:mobile]
     access_token_path = '/?ha_method=auth.accesstoken'+default_options
     @oauth_options = {
       :site => "http://data.hyves-api.nl",
@@ -122,7 +125,7 @@ class Hyves
   # The OAuth::Consumer for this Hyves object. Might you want to do some
   # fancy things with it.
   def consumer
-    @consumer ||= OAuth::Consumer.new(key, secret, oauth_options)
+    @consumer ||= OAuth::ConsumerWithHyvesExtension.new(key, secret, oauth_options)
   end
 
   def request_token

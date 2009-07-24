@@ -10,5 +10,5 @@ require 'oauth_hacks'
 # HashWithIndifferentAccess is not needed when is used as a Rails plugin
 require 'indifferent_access' if not defined? HashWithIndifferentAccess
 
-require 'hyves_rails_extensions'
+require 'hyves_rails_extensions' if defined? ActiveRecord
 require 'hyves_base_extensions'
