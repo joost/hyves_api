@@ -36,6 +36,15 @@ end
 module OAuth
   class ConsumerWithHyvesExtension < Consumer
 
+    def get_request_token(request_options = {}, *arguments)
+      # if oauth_callback wasn't provided, it is assumed that oauth_verifiers
+      # will be exchanged out of band
+      request_options.delete(:oauth_callback) # No callback expected
+
+      response = token_request(http_method, (request_token_url? ? request_token_url : request_token_path), nil, request_options, *arguments)
+      # raise response.to_yaml
+      OAuth::RequestToken.from_hash(self, response)
+    end
     # We use XMLSimple to parse the response of Hyves. oAuth did not work out-of-the-box.
     # This is because Hyves uses some own kind of format (see: https://trac.hyves-api.nl/hyves-api/wiki/APIoAuth).
     # This can be overcome by using stric_oauth_spec_response=true in the request.
