@@ -56,7 +56,11 @@ module OAuth
       request = create_signed_request(http_method,path,token,request_options,*arguments)
       response = http.request(request)
       if response.code=="200"
-        HashWithIndifferentAccess.new(XmlSimple.xml_in(response.body, { 'ForceArray' => false }))
+        if response.body =~ /^\<\?/
+          HashWithIndifferentAccess.new(XmlSimple.xml_in(response.body, { 'ForceArray' => false }))
+        else
+          HashWithIndifferentAccess[*response.body.split("&").map {|part| part.split("=") }.flatten]
+        end
         # FIXME: Should the following correctly parse JSON?
         # CGI.parse(response.body).inject({}){|h,(k,v)| h[k.to_sym]=v.first;h}
       else
