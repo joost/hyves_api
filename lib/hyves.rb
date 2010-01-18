@@ -95,7 +95,7 @@ class Hyves
     @key = key
     @secret = secret
     
-    @ha_version = options.delete(:ha_version) || '1.0'
+    @ha_version = options.delete(:ha_version) || '1.2.1'
     @ha_format = 'xml'
     @ha_fancylayout = options.delete(:ha_fancylayout)
 
