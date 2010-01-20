@@ -69,6 +69,67 @@ class Hyves
     'wwws.getForFriends'
   ]
 
+  BETA_API_METHODS = beta_methods = [
+    'albums.addMedia',
+    'albums.create',
+    'albums.getBuiltin',
+    'albums.getByHub',
+    'albums.removeMedia',
+    'batch.process',
+    'blogs.getByHub',
+    'blogs.getPublic',
+    'blogs.update',
+    'buzz.getFamous',
+    'chat.getLoginToken',
+    'events.addPresence',
+    'events.get',
+    'events.getByHub',
+    'events.getByLoggedin',
+    'events.getByUserPresent',
+    'events.getPresence',
+    'events.getPresenceForFriends',
+    'friends.getConnection',
+    'gadgets.createByXML',
+    'gadgets.getByHub',
+    'hubcategories.get',
+    'hubcategories.getByHubType',
+    'hubcategories.getChildren',
+    'hubs.get',
+    'hubs.getByHubCategory',
+    'hubs.getByShortname',
+    'hubs.getByUser',
+    'hubs.getHubTypes',
+    'hubs.getScraps',
+    'hubs.search',
+    'hubs.updateMedia',
+    'media.addSpotted',
+    'media.addTag',
+    'media.getByLoggedin',
+    'media.getPublic',
+    'media.getSpotted',
+    'media.getUploadToken',
+    'media.update',
+    'media.updateGeolocation',
+    'privatespots.create',
+    'privatespots.get',
+    'privatespots.getByLoggedin',
+    'search.find',
+    'threads.get',
+    'threads.getByHub',
+    'threads.getComments',
+    'tips.create',
+    'tips.getByHub',
+    'users.getByFriendLastlogin',
+    'users.getByHubLastlogin',
+    'users.getFriendsByLoggedinSorted',
+    'users.getSmileyCategories',
+    'users.getSmileys',
+    'wwws.createRespect',
+    'wwws.getByHub',
+    'wwws.getComments',
+    'wwws.getRespects'
+  ]
+
   attr_accessor :access_token, :consumer, :api_methods, :ha_fancylayout
   attr_reader :request_token
   attr_reader :ha_version, :ha_format, :key, :secret
@@ -183,7 +244,7 @@ private
   # This are the options that are needed for every request to Hyves.
   # They are returned as a Hash.
   def default_request_options
-    {'ha_version' => ha_version, 'ha_format' => ha_format, 'ha_fancylayout' => ha_fancylayout}
+    {'ha_version' => ha_version, 'ha_format' => ha_format, 'ha_fancylayout' => ha_fancylayout} #, 'strict_oauth_spec_response' => true
   end
 
   # This method defines all api calls. Use it as follows:
