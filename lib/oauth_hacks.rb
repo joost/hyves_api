@@ -2,19 +2,17 @@ require 'xmlsimple' # gem install xml-simple
 # We need to mod the oAuth gem (at least v0.2.2) a bit to use it with the Hyves API v1.0
 
 module OAuth
-  
   class RequestToken<ConsumerToken
     # This makes we can actually access the response included with the Access Token.
     # Since Hyves puts the userid in there.. and we want to grab that!
     attr_accessor :response
-    
+
     def get_access_token(options={})
       @response=consumer.token_request(consumer.http_method,consumer.access_token_path,self,options)
       OAuth::AccessToken.new(consumer,@response[:oauth_token],@response[:oauth_token_secret])
     end
-    
-  end
 
+  end
 end
 
 module OAuth::Client
@@ -36,15 +34,15 @@ end
 module OAuth
   class ConsumerWithHyvesExtension < Consumer
 
+    # Hyves raises error when a oauth_callback is supplied
     def get_request_token(request_options = {}, *arguments)
-      # if oauth_callback wasn't provided, it is assumed that oauth_verifiers
-      # will be exchanged out of band
       request_options.delete(:oauth_callback) # No callback expected
 
       response = token_request(http_method, (request_token_url? ? request_token_url : request_token_path), nil, request_options, *arguments)
-      # raise response.to_yaml
+
       OAuth::RequestToken.from_hash(self, response)
     end
+
     # We use XMLSimple to parse the response of Hyves. oAuth did not work out-of-the-box.
     # This is because Hyves uses some own kind of format (see: https://trac.hyves-api.nl/hyves-api/wiki/APIoAuth).
     # This can be overcome by using stric_oauth_spec_response=true in the request.
